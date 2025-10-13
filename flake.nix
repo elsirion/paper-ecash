@@ -17,8 +17,17 @@
           # Add any additional Python packages if needed
         ]);
         
-        # TeXLive with required packages
-        texliveEnv = pkgs.texliveFull;
+        # TeXLive with minimal required packages for the PDF generator
+        texliveEnv = pkgs.texlive.combine {
+          inherit (pkgs.texlive) scheme-minimal
+            latex-bin
+            latexmk
+            geometry
+            graphics
+            pgf  # provides tikz
+            tools  # provides calc and other useful packages
+            epstopdf-pkg;  # for graphics conversion
+        };
       in
       {
         devShells.default = pkgs.mkShell {
@@ -43,25 +52,7 @@
             nix-direnv
             fedimint.packages.${system}.fedimint-cli
           ];
-          
-          shellHook = ''
-            echo "Paper eCash PDF Generator Environment"
-            echo "--------------------------------------"
-            echo "Available commands:"
-            echo "  python generate_ecash_pdf.py <csv_file> - Generate PDF from CSV"
-            echo "  qrencode - Generate QR codes"
-            echo "  magick - ImageMagick for image processing"
-            echo "  pdflatex - LaTeX compiler"
-            echo ""
-            echo "Example usage:"
-            echo "  python generate_ecash_pdf.py notes.csv --output ecash.pdf"
-            echo ""
-            
-            # Make the Python script executable
-            if [ -f "generate_ecash_pdf.py" ]; then
-              chmod +x generate_ecash_pdf.py
-            fi
-          '';
+        
         };
         
         # Optional: Create an app that can be run with `nix run`
