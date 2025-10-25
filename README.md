@@ -1,9 +1,9 @@
-# Paper ecash generation
+# Paper Ecash Generator
 ## Generating raw ecash
 To generate ecash notes run the following command after joining and funding the wallet you are using (replace `/path/to/wallet` accordingly):
 
 ```
-for NUM in {0..99}; do nix run github:elsirion/fedimint?ref=2025-08-exact-spends#fedimint-cli -- --data-dir /path/to/wallet module mint spend-exact --include-invite 1048576 | jq -r .notes >> notes.csv; echo "done $NUM"; done
+for NUM in {0..99}; do fedimint-cli --data-dir /path/to/wallet module mint spend-exact --include-invite 1048576 | jq -r .notes >> notes.csv; echo "done $NUM"; done
 ```
 
 This will produce a `notes.csv` filei with ecash notes without expiry. If you lose the file the money is gone. It's advisable to keep it around to eventually reclaim unused notes or to check the claim rate.
