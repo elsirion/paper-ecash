@@ -159,9 +159,9 @@ def generate_latex(qr_files, front_image, back_image, output_tex, qr_x_offset=0,
 			\includegraphics[width=\qrsize, height=\qrsize]{#2}%
 		};
 		% Cutting lines
-		\draw[thin, dashed] (0,0) -- (\imgwidth,0); % Bottom cutting line
-		\draw[thin, dashed] (0,\imgheight) -- (\imgwidth,\imgheight); % Top cutting line
-		\draw[thin, dashed] (\imgwidth,0) -- (\imgwidth,\imgheight); % Right cutting line
+		\draw[thin, dashed, lightgray] (0,0) -- (\imgwidth,0); % Bottom cutting line
+		\draw[thin, dashed, lightgray] (0,\imgheight) -- (\imgwidth,\imgheight); % Top cutting line
+		\draw[thin, dashed, lightgray] (\imgwidth,0) -- (\imgwidth,\imgheight); % Right cutting line
 	\end{tikzpicture}%
 }
 % Command to create back image (no QR overlay)
@@ -172,10 +172,6 @@ def generate_latex(qr_files, front_image, back_image, output_tex, qr_x_offset=0,
 		\node[anchor=south west, inner sep=0pt] (base) at (0,0) {%
 			\includegraphics[width=\imgwidth, height=\imgheight]{#1}%
 		};
-		% Cutting lines
-		\draw[thin, dashed] (0,0) -- (\imgwidth,0); % Bottom cutting line
-		\draw[thin, dashed] (0,\imgheight) -- (\imgwidth,\imgheight); % Top cutting line
-		\draw[thin, dashed] (0,0) -- (0,\imgheight); % Left cutting line
 	\end{tikzpicture}%
 }
 \begin{document}
