@@ -213,11 +213,11 @@
         "nixpkgs-unstable": "nixpkgs-unstable"
       },
       "locked": {
-        "lastModified": 1755519858,
-        "narHash": "sha256-oIro8hrL2PHAYhJAPFgQHNSeV2LQvxOap19LZSzbcRs=",
+        "lastModified": 1763314439,
+        "narHash": "sha256-vIJ++UG8K6nohSUaLf+ENCbhI14ZqsoB2xGiCFMGxW0=",
         "owner": "elsirion",
         "repo": "fedimint",
-        "rev": "1733c961cc1adff2db643226bbaa27f4b9cf3054",
+        "rev": "bc7cab09f1a507e63ebe013babdd0a7cd0937be8",
         "type": "github"
       },
       "original": {
