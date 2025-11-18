@@ -1,12 +1,14 @@
 # Paper Ecash Generator
+For the commands below to work you should enter the nix develop shell shipped with the project. If you have [already installed Nix](https://github.com/DeterminateSystems/nix-installer) or are running NixOS simply run `nix develop` in a shell inside the project directory. The dev shell gives you a modified `fedimint-cli` command that is able to efficiently issue exact denomination ecash.
+
 ## Generating raw ecash
-To generate ecash notes run the following command after joining and funding the wallet you are using (replace `/path/to/wallet` accordingly):
+To generate ecash notes you first have to decide on an amount for each physical ecash note. You can use [notes.sirion.io](https://notes.sirion.io/) to explore possible denomination combinations. It's recommended to stay below 4 denominations to keep the QR code scannable. Once you have decided on the amount, run the following command after joining and funding the wallet you are using (replace `/path/to/wallet` accordingly). You can replace `1048576` with the comma separated list outputted by the denomination selector.
 
 ```
 for NUM in {0..99}; do fedimint-cli --data-dir /path/to/wallet module mint spend-exact --include-invite 1048576 | jq -r .notes >> notes.csv; echo "done $NUM"; done
 ```
 
-This will produce a `notes.csv` filei with ecash notes without expiry. If you lose the file the money is gone. It's advisable to keep it around to eventually reclaim unused notes or to check the claim rate.
+This will produce a `notes.csv` file with ecash notes without expiry. If you lose the file the money is gone. It's advisable to keep it around to eventually reclaim unused notes or to check the claim rate.
 
 ## Generating paper notes
 `notes.csv` can then be fed into `generate_ecash_pdf.py`:
