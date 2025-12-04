@@ -103,7 +103,7 @@ def generate_qr_code(note, output_file, error_correction='M', icon_file=None, ic
         print(f"Error generating QR code for note: {e}")
         return False
 
-def generate_latex(qr_files, front_image, back_image, output_tex, qr_x_offset=0, qr_y_offset=0, qr_size=7):
+def generate_latex(qr_files, front_image, back_image, output_tex, qr_x_offset=0, qr_y_offset=0, qr_size=7, cutting_lines=True):
     """Generate LaTeX file with QR codes overlaid on front images.
 
     Args:
@@ -114,6 +114,7 @@ def generate_latex(qr_files, front_image, back_image, output_tex, qr_x_offset=0,
         qr_x_offset: QR code X offset in cm (distance from left edge)
         qr_y_offset: QR code Y offset in cm (distance from bottom edge)
         qr_size: QR code size in cm
+        cutting_lines: Whether to include cutting lines (default: True)
     """
 
     # LaTeX template based on main.tex
@@ -157,11 +158,11 @@ def generate_latex(qr_files, front_image, back_image, output_tex, qr_x_offset=0,
 		% QR code overlay
 		\node[anchor=south west, inner sep=0pt] at (\qrxoffset, \qryoffset) {%
 			\includegraphics[width=\qrsize, height=\qrsize]{#2}%
-		};
+		};""" + (r"""
 		% Cutting lines
 		\draw[thin, dashed, lightgray] (0,0) -- (\imgwidth,0); % Bottom cutting line
 		\draw[thin, dashed, lightgray] (0,\imgheight) -- (\imgwidth,\imgheight); % Top cutting line
-		\draw[thin, dashed, lightgray] (\imgwidth,0) -- (\imgwidth,\imgheight); % Right cutting line
+		\draw[thin, dashed, lightgray] (\imgwidth,0) -- (\imgwidth,\imgheight); % Right cutting line""" if cutting_lines else "") + r"""
 	\end{tikzpicture}%
 }
 % Command to create back image (no QR overlay)
@@ -267,6 +268,8 @@ def main():
                         help='QR code Y position offset in cm from bottom edge (default: 0)')
     parser.add_argument('--qr-size', type=float, default=7,
                         help='QR code size in cm (default: 7)')
+    parser.add_argument('--no-cutting-lines', action='store_true',
+                        help='Disable cutting lines on the PDF (default: cutting lines enabled)')
 
     args = parser.parse_args()
 
@@ -325,7 +328,8 @@ def main():
     tex_file = 'ecash_notes.tex'
     print(f"\nGenerating LaTeX file: {tex_file}")
     generate_latex(qr_files, args.front_image, args.back_image, tex_file,
-                   qr_x_offset=args.qr_x_offset, qr_y_offset=args.qr_y_offset, qr_size=args.qr_size)
+                   qr_x_offset=args.qr_x_offset, qr_y_offset=args.qr_y_offset, qr_size=args.qr_size,
+                   cutting_lines=not args.no_cutting_lines)
     
     # Compile to PDF
     print(f"\nCompiling LaTeX to PDF: {args.output}")
