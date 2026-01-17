@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    fedimint.url = "github:elsirion/fedimint?ref=2025-08-exact-spends";
+    fedimint.url = "github:elsirion/fedimint?ref=2026-01-spend-exact-rebase";
   };
 
   outputs = { self, nixpkgs, flake-utils, fedimint }:
